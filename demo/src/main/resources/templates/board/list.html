@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List</title>
+  <script defer src="../js/board.js"></script>
+  <script src="http://code.jquery.com/jquery-3.7.0.min.js"></script>
+</head>
+<body>
+  <div id="board">
+    <h2>게시판</h2>
+    <form name="frmBoard" method="post" class="frmBoardFind">
+      <input type="text" size="40" th:value="${page.findStr}" placeholder="제목, 내용, 작성자" name="findStr" class="findStr">
+      <input type="hidden" name="nowPage" th:value="${page.nowPage}">
+      <button type="button" class="btnFind">조회</button>
+    </form>
+    
+    <div class="itemList">
+      <div class="title">
+        <span class="sno">SNO</span>
+        <span class="subject">제목</span>
+        <span class="id">작성자</span>
+        <span class="nal">작성일</span>
+        <span class="hit">조회수</span>
+      </div>
+
+      <div class="items">
+        <div class="item" th:each="v:${list}" th:onclick="view([[${v.sno}]])">
+          <span class="sno" th:text="${v.sno}">1</span>
+          <span class="subject" th:utext="${v.attCnt>0} ? '|' + ${v.subject} + ' ('+${v.attCnt}+')' : ${v.subject}">제목</span>
+          <span class="id" th:text="${v.id}">작성자</span>
+          <span class="nal" th:text="${v.nal}">작성일</span>
+          <span class="hit" th:text="${v.hit}">조회수</span>
+        </div>
+      </div>
+
+      <div class="btnZone">
+        <th:block th:if="${page.startPage gt 1}">
+          <button type="button" class="btnFirst" onclick="move(1)">처음</button>
+          <button type="button" class="btnPrev" th:value="${page.startPage-1}" onclick="move(this.value)">이전</button>
+        </th:block>
+
+        <th:block th:each="v : ${#numbers.sequence(page.startPage, page.endPage,1)}">
+          <button type="button" class="btnNum" th:class="${page.nowPage eq v}? 'now' : 'btnNum'" onclick="move(this.value)" th:text="${v}" th:value="${v}"></button>
+        </th:block>
+
+        <th:block th:if="${page.endPage lt page.totPage}">
+          <button type="button" class="btnNext" th:value="${page.endPage +1}" onclick="move(this.value)">다음</button>
+          <button type="button" class="btnLast" th:value="${page.totPage}" onclick="move(this.value)">맨끝</button>
+        </th:block>
+      </div>
+    </div>
+    <button type="button" class="btnRegister">글쓰기</button>
+  </div>
+</body>
+</html>

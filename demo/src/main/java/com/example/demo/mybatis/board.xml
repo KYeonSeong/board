@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="board">
+    <update id="hitUpdate" parameterType="Integer">
+      update board set hit=hit+1 where sno=#{_parameter}
+    </update>
+
+    <select id="view" parameterType="Integer" resultType="BoardVo">
+      select * from board where sno = #{_parameter}
+    </select>
+
+    <select id="attFiles" parameterType="Integer" resultType="BoardAtt">
+      select * from boardAtt where psno=#{_parameter}
+    </select>
+
+    <select id="all" resultType="BoardVo">
+      select * from board;
+    </select>
+
+    <select id="select" parameterType="Page" resultType="BoardVo">
+      select sno, grp, seq, deep, hit, left(nal, 10) nal, id, 
+            getAttCnt(sno) attCnt, concat( lpad('└', deep*12, <![CDATA['&nbsp;']]>), subject) subject
+      from board
+      where subject like '%${findStr}%'
+      or    doc     like '%${findStr}%'
+      order by grp desc, seq asc
+      limit ${startNo}, ${listSize}
+    </select>
+    <select id="totSize" parameterType="Page" resultType="Integer">
+      select count(sno) totSize
+      from board
+      where subject like '%${findStr}%'
+      or    doc     like '%${findStr}%'
+    </select>
+    
+    <insert id="register" parameterType="BoardVo">
+      insert into board(sno, grp, deep, seq, hit, nal, id, subject, doc)
+      values(#{sno}, #{sno}, 0, 0, 0, now(), #{id}, #{subject}, #{doc})
+    </insert>
+    <insert id="attRegister" parameterType="BoardAtt">
+      insert into boardAtt(pSno, oriFile, sysFile)
+      values
+        <foreach collection="list" item="vo" separator=",">
+          (#{vo.pSno}, #{vo.oriFile}, #{vo.sysFile})
+        </foreach>
+    </insert>
+    <select id="getSerial" parameterType="String" resultType="Integer">
+      select getSerial(#{_parameter})
+    </select>
+
+    <update id="update" parameterType="BoardVo">
+      update board set subject=#{subject}, doc=#{doc}
+      where sno = #{sno}
+    </update>
+
+    <!--delete-->
+    <select id="checkRepl" parameterType="BoardVo" resultType="Integer">
+      select count(sno) from board
+      where grp=#{grp} and <![CDATA[seq>#{seq} and deep>#{deep}]]>
+    </select>
+    <delete id="delete" parameterType="Integer">
+      delete from board where sno=#{_parameter}
+    </delete>
+    <delete id="deleteAtt" parameterType="List">
+      delete from boardAtt
+      where sysFile in
+        <foreach collection="array" item="f" open="(" close=")" separator=",">
+          #{f}
+        </foreach>
+    </delete>
+
+    <!--repl-->
+    <update id="seqUp" parameterType="BoardVo">
+      update board set seq=seq+1 where grp=#{grp} and <![CDATA[seq>#{seq}]]>
+    </update>
+    <insert id="repl" parameterType="BoardVo">
+      insert into board(sno, grp, seq, deep, hit, nal, id, subject, doc)
+      values(#{sno}, #{grp}, #{seq}, #{deep}, 0, now(), #{id}, #{subject}, #{doc})
+    </insert>
+  </mapper>

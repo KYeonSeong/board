@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HEADER</title>
+</head>
+<body>
+  <header class="header" th:fragment="header">
+    HEADER
+    <nav class="menu">
+        <span class="menuHome">HOME</span>
+       <span class="Login" th:if="${session.id eq null}">로그인</span>
+       <span class="signUpBtn" th:if="${session.id eq null}">회원가입</span>
+       <span class="Logout" th:if="${session.id ne null}">로그아웃</span>
+       <span class="menuBoard">게시판</span>
+    </nav>
+  </header>
+</body>
+</html>

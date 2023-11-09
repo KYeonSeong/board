@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INDEX</title>
+  <script defer src="../js/index.js"></script>
+  <script src="http://code.jquery.com/jquery-3.7.0.min.js"></script>
+</head>
+<body>
+
+  <header th:replace="~{layout/header::header}"></header>
+
+  <div class="content">
+    <section class="section">SECTION</section>
+    <aside th:replace="~{layout/aside::aside}"></aside>
+  </div>
+
+  <footer th:replace="~{layout/footer::footer}"></footer>
+</body>
+</html>

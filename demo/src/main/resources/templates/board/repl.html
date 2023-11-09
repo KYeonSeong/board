@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REPL</title>
+  <script defer src="../js/board.js"></script>
+  <script src="http://code.jquery.com/jquery-3.7.0.min.js"></script>
+</head>
+<body>
+  <div id="board">
+    <h2>REPL</h2>
+    <form name="frmBoard" class="frmBoard" method="post">
+      <span>작성자</span>
+      <input type="text" name="id" readonly>
+      <br/>
+      <span>작성일</span>
+      <input type="text" name="nal" readonly>
+      <br/>
+      <span>제목</span>
+      <input type="text" name="subject" placeholder="제목을 입력하세요">
+      <br/>
+      <textarea name="doc"></textarea>
+      <br/>
+      <span>첨부</span> 
+      <input type="file" name="attFile" multiple>
+      <hr/>
+      <button type="button" class="btnReplR">댓글달기</button>
+      <button type="button" class="btnList">목록</button>
+
+      <input type="hidden" name="nowPage" th:value="${page.nowPage}">
+      <input type="hidden" name="findStr" th:value="${page.findStr}">
+      <input type="hidden" name="sno" th:value="${vo.sno}">
+      <input type="hidden" name="grp" th:value="${vo.grp}">
+      <input type="hidden" name="seq" th:value="${vo.seq}">
+      <input type="hidden" name="deep" th:value="${vo.deep}">
+    </form>
+  </div>
+</body>
+</html>

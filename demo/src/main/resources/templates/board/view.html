@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIEW</title>
+  <script defer src="../js/board.js"></script>
+  <script src="http://code.jquery.com/jquery-3.7.0.min.js"></script>
+</head>
+<body>
+  <div id="board">
+    <h2>VIEW</h2>
+    <form name="frmBoard" class="frmBoard" method="post">
+      <span>작성자</span>
+      <input type="text" name="id" th:value="${vo.id}" readonly>
+      <br/>
+      <span>작성일</span>
+      <input type="text" name="nal" th:value="${vo.nal}" readonly>
+      <br/>
+      <sapn>제목</sapn>
+      <input type="text" name="subject" th:value="${vo.subject}" readonly>
+      <br/>
+      <div class="doc" th:utext="${vo.doc}">
+        게시판의 내용입니다.<br/>
+        하이루
+      </div>
+
+      <ul class="attZone">
+        <li th:each="att : ${vo.attFiles}">
+          <a th:href="@{'/upload/' + ${att.sysFile}}">
+            [[${att.oriFile}]]
+          </a>
+        </li>
+      </ul>
+
+      <div class="btnZone">
+        <button type="button" class="btnModify">수정</button>
+        <button type="button" class="btnDelete">삭제</button>
+        <button type="button" class="btnRepl">댓글</button>
+        <button type="button" class="btnList">목록</button>
+      </div>
+
+      <input type="hidden" name="sno" th:value="${vo.sno}">
+      <input type="hidden" name="grp" th:value="${vo.grp}">
+      <input type="hidden" name="seq" th:value="${vo.seq}">
+      <input type="hidden" name="deep" th:value="${vo.deep}">
+      <input type="hidden" name="findStr" th:value="${page.findStr}">
+      <input type="hidden" name="nowPage" th:value="${page.nowPage}">
+    </form>
+  </div>
+</body>
+</html>

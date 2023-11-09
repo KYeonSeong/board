@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MODIFY</title>
+  <script defer src="../js/board.js"></script>
+  <script src="http://code.jquery.com/jquery-3.7.0.min.js"></script>
+</head>
+<body>
+  <h2>MODIFY</h2>
+  <form name="frmBoard" class="frmBoard" method="post">
+    <span>작성자</span>
+    <input type="text" name="id" th:value="${vo.id}" readonly>
+    <br/>
+    <span>작성일</span>
+    <input type="text" name="nal" th:value="${vo.nal}" readonly>
+    <br/>
+    <span>제목</span>
+    <input type="text" name="subject" th:value="${vo.subject}" placeholder="제목을 입력하세요">
+    <br/>
+    <textarea name="doc" th:text="${vo.doc}"></textarea>
+    <br/>
+    <span>첨부</span>
+    <input type="file" name="attFile" multiple>
+    <!-- 기존에 첨부된 파일 정보 -->
+    <div class="delAttFile">
+      <th:block th:each="att:${vo.attFiles}">
+        <label>
+          <input type="checkbox" name="delFile" th:value="${att.sysFile}" onclick="delCheck(this)" value="aaaa.png">
+          <th:block th:text="${att.oriFile}"></th:block>
+        </label>
+      </th:block>
+    </div>
+    <hr/>
+    <button type="button" class="btnModifyR">수정하기</button>
+    <button type="button" class="btnList">목록으로</button>
+    <input type="hidden" name="sno" th:value="${vo.sno}">
+    <input type="hidden" name="findStr" th:value="${page.findStr}">
+    <input type="hidden" name="nowPage" th:value="${page.nowPage}">
+</body>
+</html>

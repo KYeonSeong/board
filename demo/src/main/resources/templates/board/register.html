@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REGISTER</title>
+  <script defer src="../js/board.js"></script>
+  <script src="http://code.jquery.com/jquery-3.7.0.min.js"></script>
+</head>
+<body>
+  <div id="board">
+    <h2>REGISTER</h2>
+    <form name="frmBoard" class="frmBoard" method="post">
+      <span>작성자</span>
+      <input type="text" name="id" th:value="${session.name}" readonly>
+      <br/>
+      <span>작성일</span>
+      <input type="text" name="nal" th:value="${param.nal}" readonly>
+      <br/>
+      <span>제목</span>
+      <input type="text" name="subject" placeholder="제목을 입력하세요">
+      <br/>
+      <textarea name="doc"></textarea>
+      <br/>
+      <span>첨부</span>
+      <input type="file" name="attFile" multiple>
+      <hr/>
+      <button type="button" class="btnRegisterR">저장</button>
+      <button type="button" class="btnList">목록으로</button>
+      <input type="hidden" name="findStr" th:value="${page.findStr}">
+      <input type="hidden" name="nowPage" th:value="${page.nowPage}"> 
+    </form>
+  </div>
+</body>
+</html>
