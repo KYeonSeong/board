@@ -10,6 +10,7 @@
     <typeAlias type="com.example.demo.board.Page" alias="Page" />
     <typeAlias type="com.example.demo.board.BoardAtt" alias="BoardAtt" />
     <typeAlias type="com.example.demo.student.LoginVo" alias="LoginVo" />
+    <typeAlias type="com.example.demo.join.JoinVo" alias="JoinVo" />
   </typeAliases>
 
   <environments default="development">
@@ -27,5 +28,6 @@
   <mappers>
     <mapper resource="com/example/demo/mybatis/login.xml"/>
     <mapper resource="com/example/demo/mybatis/board.xml"/>
+    <mapper resource="com/example/demo/mybatis/join.xml"/>
   </mappers>
 </configuration>

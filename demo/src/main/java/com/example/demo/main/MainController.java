@@ -14,11 +14,4 @@ public class MainController {
     mv.setViewName("/index");
     return mv;
   }
-
-  @RequestMapping("/joinMemberShip")
-  public ModelAndView joinMemberShip(){
-    ModelAndView mv = new ModelAndView();
-    mv.setViewName("/student/joinMemberShip");
-    return mv;
-  }
 }
