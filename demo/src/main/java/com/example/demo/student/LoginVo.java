@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoginVo {
-  String id, name, pwd, zipcode, address, phone;
+  String id, name, pwd;
 }

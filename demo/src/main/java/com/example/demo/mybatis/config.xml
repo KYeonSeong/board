@@ -1,3 +1,77 @@
+<!-- 자주 사용하는 SQL
+데이터 CRUD 명령어
+조회
+SELECT column1, column2, ...
+FROM TableName
+WHERE condition;
+추가 
+INSERT INTO TableName (column1, column2, ...)
+VALUES (value1, value2, ...);
+수정
+UPDATE TableName
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
+삭제 
+DELETE FROM TableName
+WHERE condition;
+
+특정값 조회
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+-column1, column2, ...: 조회하려는 열(Column) 이름을 나열합니다. 모든 열을 조회하려면 *를 사용할 수 있습니다.
+-table_name: 데이터를 조회할 테이블의 이름입니다.
+-WHERE condition: 선택적으로, 특정 조건을 지정하여 조건에 맞는 행만을 조회할 수 있습니다.
+
+1) 테이블 생성 : 
+CREATE TABLE 테이블명 (
+    column명 datatype,
+    column명 datatype,
+    ...
+);
+
+2) 조회 결과로 테이블 생성 :
+CREATE TABLE 생성할 테이블명 AS SELECT * FROM 기존 테이블명;
+// 예제
+CREATE TABLE tmp_customers AS SELECT * FROM Customers;
+
+3) 테이블 Column명 변경 : 
+ALTER TABLE 테이블명 RENAME COLUMN 예전 이름 TO 바꿀 이름;
+// 예제
+ALTER TABLE tmp_customers RENAME COLUMN CustomerName TO Name;
+
+4) 테이블 삭제
+DROP TABLE 테이블명;
+// 예제
+DROP TABLE tmp_customers;
+
+5) LIKE / WHERE 절에 사용 가능
+-LIKE '%hello'; // 앞 내용이 무엇이든 끝이 hello인 모든 요소
+-LIKE 'hello%'; // 앞은 무조건 hello로 시작하고 끝은 상관 없는 모든 요소
+-LIKE '%hello%'; // 앞과 뒤는 상관없으나 중간에 무조건 hello가 포함되어 있는 모든 요소
+// 예제
+SELECT * FROM 
+    table 
+WHERE 
+    text LIKE 'SQL%';
+
+6) BETWEEN a AND b
+a와 b를 포함한 모든 사이값들
+// 예제
+SELECT * FROM
+    Products
+WHERE
+    CategoryId BETWEEN '1996-07-01' AND '1996-07-05';
+-->
+
+<!--XML 버전 선언 (<?xml version="1.0" encoding="UTF-8" ?>):
+
+XML 문서의 첫 부분에 위치하며, 문서가 어떤 버전의 XML을 따르는지를 지정합니다. 여기서는 XML 1.0 버전을 사용하고 있습니다.
+encoding="UTF-8"는 XML 문서의 문자 인코딩을 UTF-8로 설정하고 있습니다. UTF-8은 다국어를 지원하는 문자 인코딩 방식 중 하나입니다.
+DOCTYPE 선언:
+
+DOCTYPE 선언은 XML 문서가 따르는 DTD를 지정합니다. DTD는 XML 문서의 구조를 정의하고 유효성 검사에 사용됩니다.
+MyBatis의 매퍼 파일에는 자체적인 DTD가 정의되어 있으며, 이를 참조하기 위해 해당 URL을 사용합니다. 이 DTD는 MyBatis의 매퍼 파일이 어떤 구조를 가져야 하는지를 정의합니다.-->
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
@@ -5,6 +79,7 @@
 
 <configuration>
 
+  <!--typeAliases 섹션은 자바 클래스에 대한 별칭을 지정하는 데 사용됩니다. 예를 들어, com.example.demo.board.BoardVo 클래스에 대한 별칭은 "BoardVo"입니다. 이렇게 별칭을 사용하면 XML 파일에서 복잡한 클래스 이름을 사용하는 대신 간단한 별칭을 사용할 수 있습니다.-->
   <typeAliases>
     <typeAlias type="com.example.demo.board.BoardVo" alias="BoardVo"/>
     <typeAlias type="com.example.demo.board.Page" alias="Page" />
@@ -13,9 +88,13 @@
     <typeAlias type="com.example.demo.join.JoinVo" alias="JoinVo" />
   </typeAliases>
 
+  <!--environments 섹션은 데이터베이스 연결 및 트랜잭션 관리를 설정합니다.-->
+  <!--default="development"는 기본적으로 개발 환경을 사용하도록 지정합니다.-->
   <environments default="development">
     <environment id="development">
+      <!--transactionManager 요소는 트랜잭션 관리 방법을 설정하며, 여기서는 JDBC를 사용하고 있습니다.-->
       <transactionManager type="JDBC" />
+      <!--dataSource 요소는 데이터베이스 연결 정보를 설정합니다. JDBC 드라-->
       <dataSource type="POOLED">
         <property name="driver" value="com.mysql.cj.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost:3306/lecture" />
@@ -25,6 +104,8 @@
     </environment>
   </environments>
 
+  <!--
+  mappers는 MyBatis에서 매퍼 파일을 지정하는 섹션입니다. MyBatis는 SQL 매핑을 위해 자바 객체와 SQL 쿼리를 연결하는 역할을 합니다. 이러한 역할은 주로 XML 형식의 매퍼 파일을 통해 이루어집니다.-->
   <mappers>
     <mapper resource="com/example/demo/mybatis/login.xml"/>
     <mapper resource="com/example/demo/mybatis/board.xml"/>

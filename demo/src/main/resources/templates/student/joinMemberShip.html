@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>회원가입</title>
   <script defer src="../js/join.js"></script>
   <script src="http://code.jquery.com/jquery-3.7.0.min.js"></script>
 </head>
 <body>
-  <form name="frmMember" class="frmjoinMember" method="POST">
-    <input type="text" class="MemberId" name="id" placeholder="아이디">
-    <br/>
-    <span class="idCondition"></span>
-    <br/>
-    <input type="password" class="MemberPwd" name="pwd" placeholder="비밀번호">
-    <br/>
-    <span class="pwdCondition"></span>
-    <br/>
-    <input type="text" class="MemberName" name="name" placeholder="닉네임">
-    <br/>
-    <button type="button" class="signUpMember">가입완료</button>
-  </form>
+  <div id="joinMember">   
+    <form name="frmMember" class="frmMember" method="POST">
+      <input type="text" class="MemberId" name="id" placeholder="아이디">
+      <br/>
+      <span class="idCondition"></span>
+      <br/>
+      <input type="password" class="MemberPwd" name="pwd" placeholder="비밀번호">
+      <br/>
+      <span class="pwdCondition"></span>
+      <br/>
+      <input type="text" class="MemberName" name="name" placeholder="닉네임">
+      <br/>
+      <button type="button" class="signUpMember">가입완료</button>
 </body>
 </html>

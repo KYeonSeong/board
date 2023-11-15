@@ -10,8 +10,10 @@
     HEADER
     <nav class="menu">
         <span class="menuHome">HOME</span>
+        <!--Thymeleaf의 th:if 속성을 사용하여 세션 ID가 null인 경우에만 표시-->
        <span class="Login" th:if="${session.id eq null}">로그인</span>
        <span class="signUpBtn" th:if="${session.id eq null}">회원가입</span>
+       <!--세션 ID가 null이 아닌 경우에만 표시-->
        <span class="Logout" th:if="${session.id ne null}">로그아웃</span>
        <span class="menuBoard">게시판</span>
     </nav>

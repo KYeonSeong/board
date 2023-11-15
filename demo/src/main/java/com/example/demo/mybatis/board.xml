@@ -1,3 +1,77 @@
+<!-- 자주 사용하는 SQL
+데이터 CRUD 명령어
+조회
+SELECT column1, column2, ...
+FROM TableName
+WHERE condition;
+추가 
+INSERT INTO TableName (column1, column2, ...)
+VALUES (value1, value2, ...);
+수정
+UPDATE TableName
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
+삭제 
+DELETE FROM TableName
+WHERE condition;
+
+특정값 조회
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+-column1, column2, ...: 조회하려는 열(Column) 이름을 나열합니다. 모든 열을 조회하려면 *를 사용할 수 있습니다.
+-table_name: 데이터를 조회할 테이블의 이름입니다.
+-WHERE condition: 선택적으로, 특정 조건을 지정하여 조건에 맞는 행만을 조회할 수 있습니다.
+
+1) 테이블 생성 : 
+CREATE TABLE 테이블명 (
+    column명 datatype,
+    column명 datatype,
+    ...
+);
+
+2) 조회 결과로 테이블 생성 :
+CREATE TABLE 생성할 테이블명 AS SELECT * FROM 기존 테이블명;
+// 예제
+CREATE TABLE tmp_customers AS SELECT * FROM Customers;
+
+3) 테이블 Column명 변경 : 
+ALTER TABLE 테이블명 RENAME COLUMN 예전 이름 TO 바꿀 이름;
+// 예제
+ALTER TABLE tmp_customers RENAME COLUMN CustomerName TO Name;
+
+4) 테이블 삭제
+DROP TABLE 테이블명;
+// 예제
+DROP TABLE tmp_customers;
+
+5) LIKE / WHERE 절에 사용 가능
+-LIKE '%hello'; // 앞 내용이 무엇이든 끝이 hello인 모든 요소
+-LIKE 'hello%'; // 앞은 무조건 hello로 시작하고 끝은 상관 없는 모든 요소
+-LIKE '%hello%'; // 앞과 뒤는 상관없으나 중간에 무조건 hello가 포함되어 있는 모든 요소
+// 예제
+SELECT * FROM 
+    table 
+WHERE 
+    text LIKE 'SQL%';
+
+6) BETWEEN a AND b
+a와 b를 포함한 모든 사이값들
+// 예제
+SELECT * FROM
+    Products
+WHERE
+    CategoryId BETWEEN '1996-07-01' AND '1996-07-05';
+-->
+
+<!--XML 버전 선언 (<?xml version="1.0" encoding="UTF-8" ?>):
+
+XML 문서의 첫 부분에 위치하며, 문서가 어떤 버전의 XML을 따르는지를 지정합니다. 여기서는 XML 1.0 버전을 사용하고 있습니다.
+encoding="UTF-8"는 XML 문서의 문자 인코딩을 UTF-8로 설정하고 있습니다. UTF-8은 다국어를 지원하는 문자 인코딩 방식 중 하나입니다.
+DOCTYPE 선언:
+
+DOCTYPE 선언은 XML 문서가 따르는 DTD를 지정합니다. DTD는 XML 문서의 구조를 정의하고 유효성 검사에 사용됩니다.
+MyBatis의 매퍼 파일에는 자체적인 DTD가 정의되어 있으며, 이를 참조하기 위해 해당 URL을 사용합니다. 이 DTD는 MyBatis의 매퍼 파일이 어떤 구조를 가져야 하는지를 정의합니다.-->
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!DOCTYPE mapper
@@ -5,22 +79,27 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
   <mapper namespace="board">
+    <!--board 테이블에서 특정 게시물의 조회수(hit)를 1 증가시키는 쿼리-->
     <update id="hitUpdate" parameterType="Integer">
       update board set hit=hit+1 where sno=#{_parameter}
     </update>
 
+    <!--board 테이블에서 특정 게시물의 정보를 조회하는 쿼리-->
     <select id="view" parameterType="Integer" resultType="BoardVo">
       select * from board where sno = #{_parameter}
     </select>
 
+    <!--boardAtt 테이블에서 특정 게시물의 첨부 파일 정보를 조회하는 쿼리-->
     <select id="attFiles" parameterType="Integer" resultType="BoardAtt">
-      select * from boardAtt where psno=#{_parameter}
+      select * from boardAtt where pSno=#{_parameter}
     </select>
 
+    <!--board 테이블에서 모든 게시물의 정보를 조회하는 쿼리-->
     <select id="all" resultType="BoardVo">
       select * from board;
     </select>
 
+    <!--board 테이블에서 페이징 및 검색을 포함한 게시물 목록을 조회하는 쿼리-->
     <select id="select" parameterType="Page" resultType="BoardVo">
       select sno, grp, seq, deep, hit, left(nal, 10) nal, id, 
             getAttCnt(sno) attCnt, concat( lpad('└', deep*12, <![CDATA['&nbsp;']]>), subject) subject
@@ -30,6 +109,7 @@
       order by grp desc, seq asc
       limit ${startNo}, ${listSize}
     </select>
+    <!--oard 테이블에서 페이징 및 검색을 포함한 총 게시물 수를 조회하는 쿼리-->
     <select id="totSize" parameterType="Page" resultType="Integer">
       select count(sno) totSize
       from board
@@ -37,10 +117,12 @@
       or    doc     like '%${findStr}%'
     </select>
     
+    <!--board 테이블에 새로운 게시물을 등록하는 쿼리-->
     <insert id="register" parameterType="BoardVo">
       insert into board(sno, grp, deep, seq, hit, nal, id, subject, doc)
       values(#{sno}, #{sno}, 0, 0, 0, now(), #{id}, #{subject}, #{doc})
     </insert>
+    <!--boardAtt 테이블에 여러 개의 첨부 파일 정보를 등록하는 쿼리-->
     <insert id="attRegister" parameterType="BoardAtt">
       insert into boardAtt(pSno, oriFile, sysFile)
       values
@@ -48,23 +130,27 @@
           (#{vo.pSno}, #{vo.oriFile}, #{vo.sysFile})
         </foreach>
     </insert>
+    <!--시퀀스 값을 증가시키는 함수(getSerial)를 호출하여 새로운 시퀀스 값을 가져오는 쿼리-->
     <select id="getSerial" parameterType="String" resultType="Integer">
       select getSerial(#{_parameter})
     </select>
 
+    <!--board 테이블에서 특정 게시물의 제목과 내용을 수정하는 쿼리-->
     <update id="update" parameterType="BoardVo">
       update board set subject=#{subject}, doc=#{doc}
       where sno = #{sno}
     </update>
 
-    <!--delete-->
+    <!--특정 게시물에 대한 답글 여부를 확인하는 쿼리-->
     <select id="checkRepl" parameterType="BoardVo" resultType="Integer">
       select count(sno) from board
       where grp=#{grp} and <![CDATA[seq>#{seq} and deep>#{deep}]]>
     </select>
+    <!--board 테이블에서 특정 게시물을 삭제하는 쿼리-->
     <delete id="delete" parameterType="Integer">
       delete from board where sno=#{_parameter}
     </delete>
+    <!--boardAtt 테이블에서 여러 개의 첨부 파일을 삭제하는 쿼리-->
     <delete id="deleteAtt" parameterType="List">
       delete from boardAtt
       where sysFile in
@@ -73,10 +159,11 @@
         </foreach>
     </delete>
 
-    <!--repl-->
+    <!--답글이 추가될 때 해당 그룹의 시퀀스 값을 증가시키는 쿼리-->
     <update id="seqUp" parameterType="BoardVo">
       update board set seq=seq+1 where grp=#{grp} and <![CDATA[seq>#{seq}]]>
     </update>
+    <!--답글을 등록하는 쿼리-->
     <insert id="repl" parameterType="BoardVo">
       insert into board(sno, grp, seq, deep, hit, nal, id, subject, doc)
       values(#{sno}, #{grp}, #{seq}, #{deep}, 0, now(), #{id}, #{subject}, #{doc})

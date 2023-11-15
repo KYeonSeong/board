@@ -12,9 +12,11 @@
     <h2>REGISTER</h2>
     <form name="frmBoard" class="frmBoard" method="post">
       <span>작성자</span>
+      <!--Thymeleaf의 th:value 속성을 사용하여 세션에서 가져온 사용자 이름을 설정-->
       <input type="text" name="id" th:value="${session.name}" readonly>
       <br/>
       <span>작성일</span>
+      <!--hymeleaf의 th:value 속성을 사용하여 URL 매개변수에서 가져온 작성일을 설정-->
       <input type="text" name="nal" th:value="${param.nal}" readonly>
       <br/>
       <span>제목</span>

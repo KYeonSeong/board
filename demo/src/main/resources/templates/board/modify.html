@@ -11,23 +11,30 @@
   <h2>MODIFY</h2>
   <form name="frmBoard" class="frmBoard" method="post">
     <span>작성자</span>
+    <!--th:value 속성을 사용하여 글의 작성자 ID를 설정-->
     <input type="text" name="id" th:value="${vo.id}" readonly>
     <br/>
     <span>작성일</span>
+    <!--th:value 속성을 사용하여 글의 작성일을 설정-->
     <input type="text" name="nal" th:value="${vo.nal}" readonly>
     <br/>
     <span>제목</span>
+    <!--th:value 속성을 사용하여 기존 제목을 설정-->
     <input type="text" name="subject" th:value="${vo.subject}" placeholder="제목을 입력하세요">
     <br/>
+    <!--th:text 속성을 사용하여 기존 내용을 설정-->
     <textarea name="doc" th:text="${vo.doc}"></textarea>
     <br/>
     <span>첨부</span>
     <input type="file" name="attFile" multiple>
     <!-- 기존에 첨부된 파일 정보 -->
     <div class="delAttFile">
+      <!--Thymeleaf의 반복문을 사용하여 기존에 첨부된 파일 목록을 처리하는 부분-->
       <th:block th:each="att:${vo.attFiles}">
         <label>
+          <!--첨부된 파일을 삭제하기 위한 체크박스, h:value 속성을 사용하여 삭제할 파일의 시스템 파일 이름을 설정하고, 클릭 시 delCheck 함수를 호출-->
           <input type="checkbox" name="delFile" th:value="${att.sysFile}" onclick="delCheck(this)" value="aaaa.png">
+          <!--부된 파일의 원본 파일 이름을 나타내는 Thymeleaf 텍스트 표현-->
           <th:block th:text="${att.oriFile}"></th:block>
         </label>
       </th:block>

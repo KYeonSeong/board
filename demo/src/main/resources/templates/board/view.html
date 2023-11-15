@@ -10,14 +10,16 @@
 <body>
   <div id="board">
     <h2>VIEW</h2>
+    <!--폼의 이름은 "frmBoard"이며, 클래스는 "frmBoard"로 설정,  데이터를 전송하는 방식은 POST로 설정-->
     <form name="frmBoard" class="frmBoard" method="post">
       <span>작성자</span>
+      <!--Thymeleaf의 th:value 속성을 사용하여 해당 값을 설정-->
       <input type="text" name="id" th:value="${vo.id}" readonly>
       <br/>
       <span>작성일</span>
       <input type="text" name="nal" th:value="${vo.nal}" readonly>
       <br/>
-      <sapn>제목</sapn>
+      <span>제목</span>
       <input type="text" name="subject" th:value="${vo.subject}" readonly>
       <br/>
       <div class="doc" th:utext="${vo.doc}">
@@ -26,8 +28,11 @@
       </div>
 
       <ul class="attZone">
+        <!--Thymeleaf의 th:each 속성을 사용하여 각 첨부 파일에 대한 반복문을 시작-->
         <li th:each="att : ${vo.attFiles}">
+          <!--각 첨부 파일에 대한 링크를 생성하며, 해당 파일의 경로는 "/upload/"와 첨부 파일의 시스템 파일 이름인 ${att.sysFile}를 조합하여 생성-->
           <a th:href="@{'/upload/' + ${att.sysFile}}">
+            <!--각 첨부 파일의 원본 파일 이름을 나타내는 Thymeleaf 텍스트 표현-->
             [[${att.oriFile}]]
           </a>
         </li>
@@ -40,6 +45,7 @@
         <button type="button" class="btnList">목록</button>
       </div>
 
+      <!--폼 데이터 전송 시 필요한 일부 데이터를 숨겨진 입력 필드로 설정하고 있습니다. 이 데이터에는 글의 일련 번호, 그룹, 순서, 뎁스, 검색어 및 현재 페이지와 같은 정보가 포함-->
       <input type="hidden" name="sno" th:value="${vo.sno}">
       <input type="hidden" name="grp" th:value="${vo.grp}">
       <input type="hidden" name="seq" th:value="${vo.seq}">
